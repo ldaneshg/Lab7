@@ -84,7 +84,17 @@
       // The main difference from fetchOne() will be the URL you request from; check
       // the writeup to view the URL pattern for fetch one and fetch all
       function fetchAll() {
-        // TODO
+        
+        output.innerHTML = "";   
+        document.getElementById("recordForm").style.display = "none";
+        let url = document.getElementById('endpoint');
+        let output = document.getElementById('output');
+        fetch(url.value)
+          .then(response => response.json()
+          .then(data => {
+            output.innerHTML = JSON.stringify(data);   
+          }
+        ));
       }
 
       // This function should fetch one entry from the given endpoint.
@@ -92,7 +102,16 @@
       // The main difference from fetchAll() will be the URL you request from; check
       // the writeup to view the URL pattern for fetch one and fetch all
       function fetchOne() {
-        // TODO
+        output.innerHTML = "";  
+        document.getElementById("recordForm").style.display = "none";
+        let id = window.prompt('Enter record id'); 
+        let url = document.getElementById('endpoint').value + "/" + id;
+        fetch(url)
+          .then(response => response.json()
+          .then(data => {
+            output.innerHTML = JSON.stringify(data);   
+          }
+        ));
       }
 
       // This function should use fetch to create one entry in the given endpoint.
@@ -100,7 +119,29 @@
       // The main difference from updateRecord() will be the URL you send data to; check
       // the writeup to view the URL pattern for create and update
       function createRecord() {
-        // TODO
+        output.innerHTML = "";  
+        if( arguments[0] == 'show' ) {
+          document.getElementById("recordForm").style.display = "inline";
+        }
+        if( arguments[0] == 'submit' ) { 
+          let url = document.getElementById('endpoint').value;
+          let xhr = new XMLHttpRequest();
+          xhr.open(url, "post", true);
+          xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+
+          let text = '{ "id":' + '2' + 
+          ',"title": "' + document.getElementById('title').name + '","author": "'
+          + document.getElementById('author').name + '" }';
+          xhr.send(text);
+
+          fetch(document.getElementById('endpoint').value)
+            .then(response => response.json()
+            .then(data => {
+            output.innerHTML = JSON.stringify(data);   
+          }
+        ));
+
+        }
       }
 
       // This function should use fetch to update one existing entry in the given endpoint.
